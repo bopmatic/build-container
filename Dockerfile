@@ -31,6 +31,11 @@ RUN curl -LO https://get.pulumi.com/releases/sdk/pulumi-v3.23.2-linux-x64.tar.gz
 RUN tar -zxvf pulumi-v3.23.2-linux-x64.tar.gz
 RUN mv pulumi /usr/local
 
+# copy bopmatic examples
+RUN mkdir /bopmatic
+RUN git clone https://github.com/bopmatic/examples.git
+RUN mv examples /bopmatic
+
 # cleanup install artifacts
 RUN rm go1.17.6.linux-amd64.tar.gz
 RUN rm protoc-3.15.8-linux-x86_64.zip
@@ -47,6 +52,7 @@ RUN go version
 RUN protoc --version
 RUN aws --version
 RUN pulumi version
+RUN ls /bopmatic/examples
 
 # cache module dependencies
 COPY main.go ./main.go
@@ -55,6 +61,8 @@ COPY pb ./pb
 RUN protoc -I ./ --go_out ./ --go_opt paths=source_relative --go-grpc_out ./ --go-grpc_opt paths=source_relative ./pb/stub.proto
 RUN go mod vendor
 RUN go build
+RUN mkdir /bopmatic/cachedeps
+RUN mv vendor go.mod go.sum /bopmatic/cachedeps
 
 # remove stub code
 RUN rm main.go
