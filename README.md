@@ -21,8 +21,9 @@ docker run -i -t --rm --name bopmatic-builder -v $PWD:$PWD -w $PWD bopmatic/buil
 TBD
 
 ## Contributing
-Pull requests are welcome. For major changes, please open an issue
-first to discuss what you would like to change.
+Pull requests are welcome at https://github.com/bopmatic/build-container
+For major changes, please open an issue first to discuss what you
+would like to change.
 
 ## License
 [AGPL3](https://www.gnu.org/licenses/agpl-3.0.en.html)
