@@ -16,6 +16,9 @@ RUN go env -w GOPROXY=direct
 # install latest protoc
 RUN curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v3.15.8/protoc-3.15.8-linux-x86_64.zip
 RUN unzip protoc-3.15.8-linux-x86_64.zip -d /usr/local
+RUN chmod 755 /usr/local/bin/protoc
+RUN find /usr/local/include -type d -exec chmod 755 {} \;
+RUN find /usr/local/include -type f -exec chmod 644 {} \;
 
 # install latest protoc-gen-go & protoc-gen-go-grpc
 RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.26
@@ -41,6 +44,7 @@ RUN rm go1.17.6.linux-amd64.tar.gz
 RUN rm protoc-3.15.8-linux-x86_64.zip
 RUN rm -rf ./aws awscliv2.zip
 RUN rm pulumi-v3.23.2-linux-x64.tar.gz
+RUN rm /usr/local/readme.txt
 
 # set ENV vars
 ENV PATH="/root/go/bin:/usr/local/pulumi:${PATH}"
@@ -56,10 +60,11 @@ RUN ls /bopmatic/examples
 
 # cache module dependencies
 COPY main.go ./main.go
-COPY go.mod ./go.mod
 COPY pb ./pb
 RUN protoc -I ./ --go_out ./ --go_opt paths=source_relative --go-grpc_out ./ --go-grpc_opt paths=source_relative ./pb/stub.proto
+RUN go mod init lambdastub.bopmatic.com
 RUN go mod vendor
+RUN go mod tidy
 RUN go build
 RUN mkdir /bopmatic/cachedeps
 RUN mv vendor go.mod go.sum /bopmatic/cachedeps
