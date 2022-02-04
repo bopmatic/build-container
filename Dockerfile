@@ -23,6 +23,8 @@ RUN find /usr/local/include -type f -exec chmod 644 {} \;
 # install latest protoc-gen-go & protoc-gen-go-grpc
 RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.26
 RUN go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.1
+RUN mv /root/go/bin/protoc-gen-go-grpc /usr/local/bin
+RUN mv /root/go/bin/protoc-gen-go /usr/local/bin
 
 # install latest aws cli
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
@@ -34,8 +36,10 @@ RUN curl -LO https://get.pulumi.com/releases/sdk/pulumi-v3.23.2-linux-x64.tar.gz
 RUN tar -zxvf pulumi-v3.23.2-linux-x64.tar.gz
 RUN mv pulumi /usr/local
 
+# setup go directories
+RUN mkdir -p /bopmatic/cachedeps
+
 # copy bopmatic examples
-RUN mkdir /bopmatic
 RUN git clone https://github.com/bopmatic/examples.git
 RUN mv examples /bopmatic
 
@@ -47,7 +51,7 @@ RUN rm pulumi-v3.23.2-linux-x64.tar.gz
 RUN rm /usr/local/readme.txt
 
 # set ENV vars
-ENV PATH="/root/go/bin:/usr/local/pulumi:${PATH}"
+ENV PATH="/usr/local/pulumi:${PATH}"
 ENV GO111MODULE=on
 ENV GOFLAGS=-mod=vendor
 
@@ -66,8 +70,15 @@ RUN go mod init lambdastub.bopmatic.com
 RUN go mod vendor
 RUN go mod tidy
 RUN go build
-RUN mkdir /bopmatic/cachedeps
 RUN mv vendor go.mod go.sum /bopmatic/cachedeps
+RUN chmod -R u+r /bopmatic/cachedeps
+
+# set these because when the go binary is run under a UID that doesn't exist in
+# /etc/passwd it will try to write at the root instead
+ENV GOPATH=/var/tmp/gopath
+ENV GOCACHE=/var/tmp/gocache
+ENV GOMODCACHE=/var/tmp/gomodcache
+ENV PATH="${GOPATH}/bin:${PATH}"
 
 # remove stub code
 RUN rm main.go
