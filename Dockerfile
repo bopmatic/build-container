@@ -96,7 +96,7 @@ ENTRYPOINT []
 CMD /bin/bash
 
 FROM amazonlinux:latest
-RUN yum install -y rsync git jq tar zip unzip amazon-linux-extras binutils
+RUN yum install -y rsync git jq tar zip unzip amazon-linux-extras binutils make
 RUN amazon-linux-extras install -y docker
 COPY --from=build /usr/local/go /usr/local/go
 COPY --from=build /usr/local/pulumi /usr/local/pulumi
