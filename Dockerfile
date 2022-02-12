@@ -1,9 +1,10 @@
-FROM public.ecr.aws/lambda/go:latest as build
-#FROM public.ecr.aws/amazonlinux/amazonlinux:latest
-#FROM public.ecr.aws/lambda/provided:al2
+FROM amazonlinux:latest as build
+
+RUN mkdir -p /var/tmp/workdir
+WORKDIR /var/tmp/workdir
 
 # install utils
-RUN yum install -y rsync git jq tar zip unzip
+RUN yum install -y rsync git jq tar zip unzip amazon-linux-extras binutils
 
 # install latest go
 RUN curl -LO https://go.dev/dl/go1.17.6.linux-amd64.tar.gz
@@ -94,8 +95,9 @@ ENTRYPOINT []
 
 CMD /bin/bash
 
-FROM public.ecr.aws/lambda/provided:al2
-RUN yum install -y rsync git jq tar zip unzip
+FROM amazonlinux:latest
+RUN yum install -y rsync git jq tar zip unzip amazon-linux-extras binutils
+RUN amazon-linux-extras install -y docker
 COPY --from=build /usr/local/go /usr/local/go
 COPY --from=build /usr/local/pulumi /usr/local/pulumi
 COPY --from=build /usr/local/bin /usr/local/bin
@@ -108,5 +110,6 @@ ENV GOMODCACHE=/var/tmp/gomodcache
 ENV PATH="${GOPATH}/bin:/usr/local/pulumi:/usr/local/go/bin:${PATH}"
 ENV GO111MODULE=on
 ENV GOFLAGS=-mod=vendor
+
 ENTRYPOINT []
 CMD /bin/bash
