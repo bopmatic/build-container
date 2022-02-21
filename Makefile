@@ -1,5 +1,5 @@
 .PHONY: build
-build: main.go pb/stub.proto
+build:
 	docker build --force-rm -t bopmatic/build .
 
 .PHONY: publish
