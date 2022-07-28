@@ -13,7 +13,7 @@ This container image is published to Docker Hub at
 https://hub.docker.com/r/bopmatic/build and can be installed via:
 
 ```bash
-docker run -i -t --rm --name bopmatic-builder -v $PWD:$PWD -w $PWD bopmatic/build:latest /bin/bash
+docker run -i -t --rm --name bopmatic-build -v $PWD:$PWD -w $PWD bopmatic/build:latest /bin/bash
 ```
 
 ## Usage
