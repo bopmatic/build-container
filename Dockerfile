@@ -63,7 +63,7 @@ ENTRYPOINT []
 CMD /bin/bash
 
 FROM amazonlinux:latest
-RUN yum install -y rsync git jq tar zip unzip amazon-linux-extras binutils make xz
+RUN yum install -y rsync git jq tar zip unzip amazon-linux-extras binutils make xz java java-devel which
 RUN amazon-linux-extras install -y docker
 COPY --from=build /usr/local/go /usr/local/go
 COPY --from=build /usr/local/bin /usr/local/bin
