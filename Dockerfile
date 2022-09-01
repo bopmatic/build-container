@@ -4,7 +4,7 @@ RUN mkdir -p /var/tmp/workdir
 WORKDIR /var/tmp/workdir
 
 # install utils
-RUN yum install -y rsync git jq tar zip unzip amazon-linux-extras binutils xz
+RUN yum install -y rsync git jq tar zip unzip amazon-linux-extras binutils xz wget
 
 # install latest go
 RUN curl -LO https://go.dev/dl/go1.18.4.linux-amd64.tar.gz
@@ -32,9 +32,10 @@ RUN go install github.com/go-swagger/go-swagger/cmd/swagger@v0.29.0
 RUN mv /root/go/bin/swagger /usr/local/bin
 
 # copy bopmatic examples
-RUN git clone https://github.com/bopmatic/examples.git
+RUN wget https://github.com/bopmatic/examples/archive/refs/tags/v0.5.0.tar.gz
+RUN tar -zxvf v0.5.0.tar.gz
 RUN mkdir /bopmatic
-RUN mv examples /bopmatic
+RUN mv examples-0.5.0 /bopmatic/examples
 
 # cleanup install artifacts
 RUN rm go1.18.4.linux-amd64.tar.gz
@@ -48,7 +49,7 @@ ENV GOFLAGS=-mod=vendor
 # sanity checks
 RUN go version
 RUN protoc --version
-RUN ls /bopmatic/examples
+RUN ls /bopmatic/examples/golang
 
 # set these because when the go binary is run under a UID that doesn't exist in
 # /etc/passwd it will try to write at the root instead
