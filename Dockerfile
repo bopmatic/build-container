@@ -32,10 +32,10 @@ RUN go install github.com/go-swagger/go-swagger/cmd/swagger@v0.29.0
 RUN mv /root/go/bin/swagger /usr/local/bin
 
 # copy bopmatic examples
-RUN wget https://github.com/bopmatic/examples/archive/refs/tags/v0.5.1.tar.gz
-RUN tar -zxvf v0.5.1.tar.gz
+RUN wget https://github.com/bopmatic/examples/archive/refs/tags/v0.5.4.tar.gz
+RUN tar -zxvf v0.5.4.tar.gz
 RUN mkdir /bopmatic
-RUN mv examples-0.5.1 /bopmatic/examples
+RUN mv examples-0.5.4 /bopmatic/examples
 
 # cleanup install artifacts
 RUN rm go1.18.4.linux-amd64.tar.gz
