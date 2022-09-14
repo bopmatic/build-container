@@ -31,6 +31,12 @@ RUN mv /root/go/bin/protoc-gen-openapiv2 /usr/local/bin
 RUN go install github.com/go-swagger/go-swagger/cmd/swagger@v0.29.0
 RUN mv /root/go/bin/swagger /usr/local/bin
 
+# install ghr & gotestsum
+RUN go install github.com/tcnksm/ghr@latest
+RUN go install gotest.tools/gotestsum@v1.8.2
+RUN mv /root/go/bin/gotestsum /usr/local/bin
+RUN mv /root/go/bin/ghr /usr/local/bin
+
 # copy bopmatic examples
 RUN wget https://github.com/bopmatic/examples/archive/refs/tags/v0.5.4.tar.gz
 RUN tar -zxvf v0.5.4.tar.gz
@@ -65,7 +71,7 @@ CMD /bin/bash
 
 FROM amazonlinux:latest
 
-RUN yum install -y rsync git jq tar zip unzip amazon-linux-extras binutils make xz java java-devel which python3 pip3
+RUN yum install -y rsync git jq tar zip unzip amazon-linux-extras binutils make xz java java-devel which python3 pip3 gcc
 RUN amazon-linux-extras install -y docker
 RUN pip3 install grpcio grpcio-tools pyinstaller
 
