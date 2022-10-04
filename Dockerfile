@@ -37,6 +37,17 @@ RUN go install gotest.tools/gotestsum@v1.8.2
 RUN mv /root/go/bin/gotestsum /usr/local/bin
 RUN mv /root/go/bin/ghr /usr/local/bin
 
+# install nodejs
+RUN wget https://nodejs.org/dist/v16.17.1/node-v16.17.1-linux-x64.tar.xz
+RUN tar -Jxvf node-v16.17.1-linux-x64.tar.xz
+RUN mv node-v16.17.1-linux-x64 /usr/local/nodejs
+
+ENV PATH="/usr/local/nodejs/bin:${PATH}"
+
+# install ionic project deps
+RUN npm install -g @ionic/cli
+RUN npm install -g react-scripts
+
 # copy bopmatic examples
 RUN wget https://github.com/bopmatic/examples/archive/refs/tags/v0.5.4.tar.gz
 RUN tar -zxvf v0.5.4.tar.gz
@@ -55,6 +66,8 @@ ENV GOFLAGS=-mod=vendor
 # sanity checks
 RUN go version
 RUN protoc --version
+RUN node --version
+RUN ionic --version
 RUN ls /bopmatic/examples/golang
 
 # set these because when the go binary is run under a UID that doesn't exist in
@@ -76,6 +89,7 @@ RUN amazon-linux-extras install -y docker
 RUN pip3 install grpcio grpcio-tools pyinstaller
 
 COPY --from=build /usr/local/go /usr/local/go
+COPY --from=build /usr/local/nodejs /usr/local/nodejs
 COPY --from=build /usr/local/bin /usr/local/bin
 COPY --from=build /usr/local/include /usr/local/include
 COPY --from=build /bopmatic /bopmatic
@@ -83,7 +97,7 @@ COPY --from=build /bopmatic /bopmatic
 ENV GOPATH=/var/tmp/gopath
 ENV GOCACHE=/var/tmp/gocache
 ENV GOMODCACHE=/var/tmp/gomodcache
-ENV PATH="${GOPATH}/bin:/usr/local/go/bin:${PATH}"
+ENV PATH="${GOPATH}/bin:/usr/local/go/bin:/usr/local/nodejs/bin:${PATH}"
 ENV GO111MODULE=on
 ENV GOFLAGS=-mod=vendor
 
