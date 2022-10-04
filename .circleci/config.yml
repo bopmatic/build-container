@@ -1,0 +1,44 @@
+# https://circleci.com/docs/2.0/configuration-reference
+version: 2.1
+
+# https://circleci.com/docs/2.0/configuration-reference/#jobs
+jobs:
+  build:
+    working_directory: ~/repo
+    # https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
+    docker:
+      - image: bopmatic/build:latest
+    # https://circleci.com/docs/2.0/configuration-reference/#steps
+    steps:
+      - checkout
+      # https://circleci.com/docs/docker-layer-caching
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Build
+          command: |
+            make build
+      - run:
+          name: Dockerhub publish
+          command: |
+            if [ "$CIRCLE_TAG" != "" ]
+            then
+                echo “$DOCKER_PASSWD” | docker login -u “$DOCKER_USER” — password-stdin
+                make publish
+            else
+                echo "Not publishing untagged commit"
+            fi
+
+# https://circleci.com/docs/2.0/configuration-reference/#workflows
+workflows:
+  version: 2
+  build-and-release:
+    jobs:
+      - build:
+          context:
+            - global
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              only: main
