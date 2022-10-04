@@ -23,7 +23,7 @@ jobs:
           command: |
             if [ "$CIRCLE_TAG" != "" ]
             then
-                echo “$DOCKER_PASSWD” | docker login -u “$DOCKER_USER” — password-stdin
+                echo "$DOCKER_PASSWD" | docker login -u "$DOCKER_USER" --password-stdin
                 make publish
             else
                 echo "Not publishing untagged commit"
