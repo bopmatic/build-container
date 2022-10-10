@@ -49,10 +49,10 @@ RUN npm install -g @ionic/cli
 RUN npm install -g react-scripts
 
 # copy bopmatic examples
-RUN wget https://github.com/bopmatic/examples/archive/refs/tags/v0.9.0.tar.gz
-RUN tar -zxvf v0.9.0.tar.gz
+RUN wget https://github.com/bopmatic/examples/archive/refs/tags/v0.9.1.tar.gz
+RUN tar -zxvf v0.9.1.tar.gz
 RUN mkdir /bopmatic
-RUN mv examples-0.9.0 /bopmatic/examples
+RUN mv examples-0.9.1 /bopmatic/examples
 
 # cleanup install artifacts
 RUN rm go1.18.4.linux-amd64.tar.gz
