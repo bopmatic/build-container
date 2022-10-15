@@ -7,9 +7,9 @@ WORKDIR /var/tmp/workdir
 RUN yum install -y rsync git jq tar zip unzip amazon-linux-extras binutils xz wget
 
 # install latest go
-RUN curl -LO https://go.dev/dl/go1.18.4.linux-amd64.tar.gz
+RUN curl -LO https://go.dev/dl/go1.19.2.linux-amd64.tar.gz
 RUN rm -rf /usr/local/go
-RUN tar -C /usr/local -xzf go1.18.4.linux-amd64.tar.gz
+RUN tar -C /usr/local -xzf go1.19.2.linux-amd64.tar.gz
 
 ENV PATH="/usr/local/go/bin:${PATH}"
 RUN go env -w GOPROXY=direct
