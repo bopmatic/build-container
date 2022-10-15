@@ -55,7 +55,7 @@ RUN mkdir /bopmatic
 RUN mv examples-0.9.2 /bopmatic/examples
 
 # cleanup install artifacts
-RUN rm go1.18.4.linux-amd64.tar.gz
+RUN rm go1.19.2.linux-amd64.tar.gz
 RUN rm protoc-21.4-linux-x86_64.zip
 RUN rm /usr/local/readme.txt
 
