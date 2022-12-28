@@ -84,7 +84,7 @@ CMD /bin/bash
 
 FROM amazonlinux:latest
 
-RUN yum install -y rsync git jq tar zip unzip amazon-linux-extras binutils make xz java java-devel which python3 pip3 gcc
+RUN yum install -y rsync git jq tar zip unzip amazon-linux-extras binutils make xz java java-devel which python3 pip3 gcc hostname
 RUN amazon-linux-extras install -y docker
 RUN pip3 install grpcio grpcio-tools pyinstaller
 
