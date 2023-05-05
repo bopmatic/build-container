@@ -1,4 +1,4 @@
-FROM amazonlinux:2.0.20230320.0 as build
+FROM amazonlinux:2.0.20230418.0 as build
 
 RUN mkdir -p /var/tmp/workdir
 WORKDIR /var/tmp/workdir
@@ -82,7 +82,7 @@ ENTRYPOINT []
 
 CMD /bin/bash
 
-FROM amazonlinux:2.0.20230320.0
+FROM amazonlinux:2.0.20230418.0
 
 RUN yum install -y rsync git jq tar zip unzip amazon-linux-extras binutils make xz java java-devel which python3 pip3 gcc hostname
 RUN amazon-linux-extras install -y docker
