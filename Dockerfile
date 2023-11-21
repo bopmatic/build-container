@@ -1,5 +1,5 @@
 #FROM amazonlinux:2023.1.20230719.0 as build
-FROM amazonlinux:2.0.20230719.0 as build
+FROM amazonlinux:2.0.20231116.0 as build
 
 RUN mkdir -p /var/tmp/workdir
 WORKDIR /var/tmp/workdir
@@ -88,7 +88,7 @@ ENTRYPOINT []
 CMD /bin/bash
 
 #FROM amazonlinux:2023.1.20230719.0
-FROM amazonlinux:2.0.20230719.0
+FROM amazonlinux:2.0.20231116.0
 
 #RUN yum install -y rsync git jq tar zip unzip findutils binutils make xz java java-devel which python3 pip gcc hostname
 RUN yum install -y rsync git jq tar zip unzip amazon-linux-extras binutils make xz java java-devel which python3 pip3 gcc hostname
