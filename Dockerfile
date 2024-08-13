@@ -22,8 +22,8 @@ RUN find /usr/local/include -type d -exec chmod 755 {} \;
 RUN find /usr/local/include -type f -exec chmod 644 {} \;
 
 # install latest protoc-gen-go, protoc-gen-go-grpc, protoc-gen-openapiv2, and go-swagger
-RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
-RUN go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.34.2
+RUN go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.3.0
 RUN go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@latest
 RUN mv /root/go/bin/protoc-gen-go-grpc /usr/local/bin
 RUN mv /root/go/bin/protoc-gen-go /usr/local/bin
