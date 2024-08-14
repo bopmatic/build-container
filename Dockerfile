@@ -49,10 +49,10 @@ RUN npm install -g @ionic/cli
 RUN npm install -g react-scripts
 
 # copy bopmatic examples
-RUN wget https://github.com/bopmatic/examples/archive/refs/tags/v0.13.0.tar.gz
-RUN tar -zxvf v0.13.0.tar.gz
+RUN wget https://github.com/bopmatic/examples/archive/refs/tags/v0.14.0.tar.gz
+RUN tar -zxvf v0.14.0.tar.gz
 RUN mkdir /bopmatic
-RUN mv examples-0.13.0 /bopmatic/examples
+RUN mv examples-0.14.0 /bopmatic/examples
 #COPY examples /bopmatic/examples
 
 # set ENV vars
