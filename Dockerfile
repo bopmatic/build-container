@@ -53,6 +53,7 @@ RUN wget https://github.com/bopmatic/examples/archive/refs/tags/v0.13.0.tar.gz
 RUN tar -zxvf v0.13.0.tar.gz
 RUN mkdir /bopmatic
 RUN mv examples-0.13.0 /bopmatic/examples
+#COPY examples /bopmatic/examples
 
 # set ENV vars
 ENV GO111MODULE=on
@@ -79,7 +80,7 @@ CMD /bin/bash
 
 FROM amazonlinux:2023
 
-RUN yum install -y rsync git jq tar zip unzip findutils binutils make xz java java-devel which python3 pip gcc hostname docker
+RUN yum install --allowerasing -y rsync git jq tar zip unzip findutils binutils make xz java java-devel which python3 pip gcc hostname docker gnupg2-full
 RUN pip install grpcio grpcio-tools pyinstaller
 
 COPY --from=build /usr/local/go /usr/local/go
