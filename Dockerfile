@@ -7,24 +7,24 @@ WORKDIR /var/tmp/workdir
 RUN yum install -y rsync git jq tar zip unzip findutils binutils xz wget
 
 # install latest go
-RUN curl -LO https://go.dev/dl/go1.22.6.linux-amd64.tar.gz
+RUN curl -LO https://go.dev/dl/go1.23.4.linux-amd64.tar.gz
 RUN rm -rf /usr/local/go
-RUN tar -C /usr/local -xzf go1.22.6.linux-amd64.tar.gz
+RUN tar -C /usr/local -xzf go1.23.4.linux-amd64.tar.gz
 
 ENV PATH="/usr/local/go/bin:${PATH}"
 RUN go env -w GOPROXY=direct
 
 # install latest protoc
-RUN curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v27.3/protoc-27.3-linux-x86_64.zip
-RUN unzip protoc-27.3-linux-x86_64.zip -d /usr/local
+RUN curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v29.1/protoc-29.1-linux-x86_64.zip
+RUN unzip protoc-29.1-linux-x86_64.zip -d /usr/local
 RUN chmod 755 /usr/local/bin/protoc
 RUN find /usr/local/include -type d -exec chmod 755 {} \;
 RUN find /usr/local/include -type f -exec chmod 644 {} \;
 
 # install latest protoc-gen-go, protoc-gen-go-grpc, protoc-gen-openapiv2, and go-swagger
-RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.34.2
-RUN go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.3.0
-RUN go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@latest
+RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.35.2
+RUN go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+RUN go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@v2.24.0
 RUN mv /root/go/bin/protoc-gen-go-grpc /usr/local/bin
 RUN mv /root/go/bin/protoc-gen-go /usr/local/bin
 RUN mv /root/go/bin/protoc-gen-openapiv2 /usr/local/bin
@@ -38,9 +38,9 @@ RUN mv /root/go/bin/gotestsum /usr/local/bin
 RUN mv /root/go/bin/ghr /usr/local/bin
 
 # install nodejs
-RUN wget https://nodejs.org/dist/v22.6.0/node-v22.6.0-linux-x64.tar.xz
-RUN tar -Jxvf node-v22.6.0-linux-x64.tar.xz
-RUN mv node-v22.6.0-linux-x64 /usr/local/nodejs
+RUN wget https://nodejs.org/dist/v22.12.0/node-v22.12.0-linux-x64.tar.xz
+RUN tar -Jxvf node-v22.12.0-linux-x64.tar.xz
+RUN mv node-v22.12.0-linux-x64 /usr/local/nodejs
 
 ENV PATH="/usr/local/nodejs/bin:${PATH}"
 
@@ -49,10 +49,10 @@ RUN npm install -g @ionic/cli
 RUN npm install -g react-scripts
 
 # copy bopmatic examples
-RUN wget https://github.com/bopmatic/examples/archive/refs/tags/v0.14.2.tar.gz
-RUN tar -zxvf v0.14.2.tar.gz
+RUN wget https://github.com/bopmatic/examples/archive/refs/tags/v0.15.0.tar.gz
+RUN tar -zxvf v0.15.0.tar.gz
 RUN mkdir /bopmatic
-RUN mv examples-0.14.2 /bopmatic/examples
+RUN mv examples-0.15.0 /bopmatic/examples
 #COPY examples /bopmatic/examples
 
 # set ENV vars
