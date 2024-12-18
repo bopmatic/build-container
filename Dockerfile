@@ -48,6 +48,9 @@ ENV PATH="/usr/local/nodejs/bin:${PATH}"
 RUN npm install -g @ionic/cli
 RUN npm install -g react-scripts
 
+# install grpc-tools
+RUN npm install -g grpc-tools
+
 # copy bopmatic examples
 RUN wget https://github.com/bopmatic/examples/archive/refs/tags/v0.15.0.tar.gz
 RUN tar -zxvf v0.15.0.tar.gz
