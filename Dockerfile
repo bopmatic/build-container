@@ -52,10 +52,10 @@ RUN npm install -g react-scripts
 RUN npm install -g grpc-tools
 
 # copy bopmatic examples
-RUN wget https://github.com/bopmatic/examples/archive/refs/tags/v0.17.1.tar.gz
-RUN tar -zxvf v0.17.1.tar.gz
+RUN wget https://github.com/bopmatic/examples/archive/refs/tags/v0.17.2.tar.gz
+RUN tar -zxvf v0.17.2.tar.gz
 RUN mkdir /bopmatic
-RUN mv examples-0.17.1 /bopmatic/examples
+RUN mv examples-0.17.2 /bopmatic/examples
 #COPY examples /bopmatic/examples
 
 # set ENV vars
